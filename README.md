@@ -5,6 +5,6 @@ Person 1
 Carter Morphis
 ## Developers
 - Carter Morphis
-- Person 4
+- Shar Adhiambo
 - Person 5
 - Person 6
