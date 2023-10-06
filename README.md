@@ -2,9 +2,9 @@
 ## Product Owner:
 Person 1 
 ## Scrum Master:
-Person 2 
+Carter Morphis
 ## Developers
-- Person 3
+- Carter Morphis
 - Person 4
 - Person 5
 - Person 6
