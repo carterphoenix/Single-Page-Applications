@@ -6,5 +6,6 @@ Carter Morphis
 ## Developers
 - Carter Morphis
 - Shar Adhiambo
-- Person 5
+- Anderson Zhu
 - Person 6
+- Person 7
