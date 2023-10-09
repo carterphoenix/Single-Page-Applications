@@ -7,5 +7,5 @@ Carter Morphis
 - Carter Morphis
 - Shar Adhiambo
 - Anderson Zhu
-- Person 6
+- Shoaib Fazal
 - Person 7
