@@ -13,7 +13,7 @@ class TopBar extends React.Component {
   }
 
   render() {
-    const { userName, pageTitle } = this.props; // Assuming you receive these as props
+    const { userName, pageTitle } = this.props; 
 
     return (
       <AppBar className="topbar-appBar" position="absolute">

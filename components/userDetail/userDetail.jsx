@@ -20,7 +20,7 @@ class UserDetail extends React.Component {
         </Typography>
         <Button
           component={Link}
-          to={`/user/${userId}/photos`}
+          to={`/users/${userId}/photos`}
           variant="outlined"
           color="primary"
         >

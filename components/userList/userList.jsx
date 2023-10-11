@@ -6,24 +6,20 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import './userList.css';
+import './UserList.css';
 
 class UserList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
     };
   }
 
   componentDidMount() {
-    // Replace this with your data-fetching logic from an API or model
-    const userIds = [
-      { id: 1, name: 'User 1' },
-      { id: 2, name: 'User 2' },
-      { id: 3, name: 'User 3' },
-    ];
-    this.setState({ users: userIds });
+    // Fetch user data from the model
+    const users = window.models.userListModel();
+    this.setState({ users });
   }
 
   render() {
@@ -32,14 +28,12 @@ class UserList extends React.Component {
       <div>
         <Typography variant="body1">
           This is the user list, which takes up 3/12 of the window.
-          You might choose to use <a href="https://mui.com/components/lists/">Lists</a> and <a href="https://mui.com/components/dividers/">Dividers</a> to
-          display your users like so:
         </Typography>
         <List component="nav">
           {users.map((user) => (
-            <div key={user.id}>
+            <div key={user._id}>
               <ListItem>
-                <ListItemText primary={user.name} />
+                <ListItemText primary={`${user.first_name} ${user.last_name}`} />
               </ListItem>
               <Divider />
             </div>
