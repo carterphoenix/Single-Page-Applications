@@ -5,19 +5,29 @@ import {
   ListItem,
   ListItemText,
   Typography,
-}
-from '@mui/material';
+} from '@mui/material';
 import './userList.css';
 
-/**
- * Define UserList, a React component of project #5
- */
 class UserList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount() {
+    // Replace this with your data-fetching logic from an API or model
+    const userIds = [
+      { id: 1, name: 'User 1' },
+      { id: 2, name: 'User 2' },
+      { id: 3, name: 'User 3' },
+    ];
+    this.setState({ users: userIds });
   }
 
   render() {
+    const { users } = this.state;
     return (
       <div>
         <Typography variant="body1">
@@ -26,18 +36,14 @@ class UserList extends React.Component {
           display your users like so:
         </Typography>
         <List component="nav">
-          <ListItem>
-            <ListItemText primary="Item #1" />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText primary="Item #2" />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText primary="Item #3" />
-          </ListItem>
-          <Divider />
+          {users.map((user) => (
+            <div key={user.id}>
+              <ListItem>
+                <ListItemText primary={user.name} />
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
         </List>
         <Typography variant="body1">
           The model comes in from window.models.userListModel()
