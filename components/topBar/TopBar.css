@@ -1,4 +1,25 @@
-.topbar-appBar {
+.cs142-topbar-appBar {
   height: 60;
   justify-content: 'center';
+}
+
+.cs142-topbar-flexbox {
+  display: flex;
+
+  white-space: nowrap;
+
+  flex-shrink: 0; 
+
+  justify-content: space-between;
+}
+
+.cs142-topbar-flexitem {
+	
+}
+
+.cs142-topbar-flexitem.name {
+
+}
+.cs142-topbar-flexitem.context {
+
 }
