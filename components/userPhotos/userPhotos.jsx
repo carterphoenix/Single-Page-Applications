@@ -15,7 +15,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
-import fetchModel from '../../lib/fetchModelData';
+import axios from 'axios';
 /**
  * Define UserPhotos, a React componment of CS142 project #5
  */
@@ -171,15 +171,15 @@ class UserPhotos extends React.Component {
     }
     componentDidMount() {
         let currId = this.props.match.params.userId;
-        fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
-        fetchModel("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
+        axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
+        axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
     }
     componentDidUpdate(prevProps) {
         let prevId = prevProps.match.params.userId;
         let currId = this.props.match.params.userId;
         if (prevId !== currId) {
-            fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
-            fetchModel("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
+            axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
+            axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
         }
     }
     render() {
@@ -215,3 +215,4 @@ class UserPhotos extends React.Component {
 }
 
 export default UserPhotos;
+
