@@ -3,8 +3,7 @@ import {
   AppBar, Toolbar, Typography
 } from '@material-ui/core';
 import './TopBar.css';
-import fetchModel from '../../lib/fetchModelData';
-
+import axios from 'axios';
 /**
  * Define TopBar
  */
@@ -48,7 +47,7 @@ class TopBar extends React.Component {
     });
   }
   componentDidMount() {
-    fetchModel("/test/info/").then(this.handleSuccess, this.handleError);
+    axios.get("/test/info/").then(this.handleSuccess, this.handleError);
 
     let url = this.props.match.url;
     let uIndex = url.search(/\/photos\//i);
@@ -57,7 +56,7 @@ class TopBar extends React.Component {
 
     if (!atHomePage) {
       const currId = url.substring(url.lastIndexOf("/") + 1);
-      fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
+      axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
     }
   }
   componentDidUpdate(prevProps) {
@@ -71,7 +70,7 @@ class TopBar extends React.Component {
 
       if (!atHomePage) {
         const currId = currUrl.substring(currUrl.lastIndexOf("/") + 1);
-        fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
+        axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
       } else {
       }
     }
