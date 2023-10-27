@@ -11,11 +11,11 @@
 
 /* jshint node: true */
 
-var express = require('express');
+const express = require('express');
 
-var portno = 3000;   // Port number to use
+const portno = 3000;   // Port number to use
 
-var app = express();
+const app = express();
 
 //var models = require('./modelData/photoApp.js').models;
 
@@ -37,7 +37,7 @@ app.get('/test/:p1', function (request, response) {
     return;
   }
   
-  var info = models.schemaInfo();
+  const info = models.schemaInfo();
   
   // Query didn't return an error but didn't find the SchemaInfo object - This
   // is also an internal error return.
