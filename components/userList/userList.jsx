@@ -11,7 +11,7 @@ import './userList.css';
 
 import { Link } from 'react-router-dom';
 
-import fetchModel from '../../lib/fetchModelData';
+import axios from 'axios';
 
 /**
  * Define UserList
@@ -74,7 +74,7 @@ class UserList extends React.Component {
     });
   }
   componentDidMount() {
-    let promise = fetchModel("/user/list");
+    let promise = axios.get("/user/list");
     promise.then(this.handleSuccess, this.handleError);
   }
   render() {
@@ -89,3 +89,4 @@ class UserList extends React.Component {
 }
 
 export default UserList;
+
