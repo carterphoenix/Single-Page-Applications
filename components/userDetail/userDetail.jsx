@@ -11,8 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 
-import fetchModel from '../../lib/fetchModelData';
-
+import axios from 'axios';
 
 /**
  * Define UserDetail
@@ -96,15 +95,15 @@ class UserDetail extends React.Component {
   }
   componentDidMount() {
     let currId = this.props.match.params.userId;
-    fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
-    fetchModel("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
+    axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
+    axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
   }
   componentDidUpdate(prevProps) {
     let prevId = prevProps.match.params.userId;
     let currId = this.props.match.params.userId;
     if (prevId !== currId) {
-      fetchModel("/user/" + currId).then(this.handleSuccess, this.handleError);
-      fetchModel("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
+      axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
+      axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
     }
   }
   render() {
@@ -153,4 +152,3 @@ class UserDetail extends React.Component {
 }
 
 export default UserDetail;
-
