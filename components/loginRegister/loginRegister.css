@@ -1,0 +1,43 @@
+
+div {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Style the text fields */
+.TextField-root {
+    margin-bottom: 15px;
+}
+
+/* Style the login button */
+.Button-root {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Style the registration accordion */
+.AccordionSummary-root {
+    background-color: #f1f1f1;
+}
+
+/* Style the registration form inside the accordion */
+.AccordionDetails-root {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add some margin to the registration button */
+.AccordionDetails-root Button {
+    margin-top: 10px;
+}
+
+/* Style the alerts */
+.MuiAlert-root {
+    margin-bottom: 10px;
+}
+
+/* Add some spacing between the registration and login sections */
+.Accordion-root {
+    margin-top: 20px;
+}
