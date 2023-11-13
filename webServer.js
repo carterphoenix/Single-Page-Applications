@@ -12,10 +12,14 @@
 /* jshint node: true */
 
 const express = require('express');
-
 const portno = 3000;   // Port number to use
-
 const app = express();
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const multer = require("multer");
+
+app.use(session({secret: "secretKey", resave: false, saveUninitialized: false}));
+app.use(bodyParser.json());
 
 //var models = require('./modelData/photoApp.js').models;
 
