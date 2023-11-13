@@ -1,154 +1,88 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
 import {
-  Typography
-} from '@material-ui/core';
+    Box,
+    Button,
+    TextField
+} from '@mui/material';
 import './userDetail.css';
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-
 import axios from 'axios';
 
 /**
- * Define UserDetail
+ * Define UserDetail, a React component of project #5
  */
 class UserDetail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Problem #1
-    let userModel = window.cs142models.userModel(this.props.match.params.userId);
-    let photoModel = window.cs142models.photoOfUserModel(this.props.match.params.userId);
-    this.state = {
-      id: this.props.match.params.userId,
-      userModel: userModel,
-      first_name: userModel.first_name,
-      last_name: userModel.last_name,
-      description: userModel.description,
-      location: userModel.location,
-      occupation: userModel.occupation,
-      photoModel: photoModel
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: undefined
+        };
+    }
+    componentDidMount() {
+        const new_user_id = this.props.match.params.userId;
+        this.handleUserChange(new_user_id);
     }
 
-    // Problem #2
-    this.state = {
-      userIsLoaded: false,
-      photoIsLoaded: false,
-      error: null,
-
-      id: this.props.match.params.userId,
-      userModel: null,
-      first_name: null,
-      last_name: null,
-      description: null,
-      location: null,
-      occupation: null,
-      photoModel: null,
-    }
-
-    this.handleSuccess = this.handleSuccess.bind(this);
-    this.handleError = this.handleError.bind(this);
-  }
-  getPhotoPath(idx) {
-    const error = this.state.error;
-    const isLoaded = this.state.photoIsLoaded;
-
-    if (error || !isLoaded) {
-      return;
-    }
-
-    let imagePaths = [];
-    for (let image of this.state.photoModel) {
-      imagePaths.push("images/" + image.file_name);
-    }
-    return (idx < imagePaths.length) ? imagePaths[idx] : imagePaths[0];
-  }
-  handleSuccess(value) {
-    let isPhotos = value.data.length !== undefined;
-    if (isPhotos) {
-      this.setState({
-        photoIsLoaded: true,
-        id: this.props.match.params.userId,
-        photoModel: value.data
-      });
-    } else {
-      this.setState({
-        userIsLoaded: true,
-        id: this.props.match.params.userId,
-        userModel: value.data,
-        first_name: value.data.first_name,
-        last_name: value.data.last_name,
-        description: value.data.description,
-        location: value.data.location,
-        occupation: value.data.occupation,
-      });
-    }
-  }
-  handleError(error) {
-    this.setState({
-      error: error
-    });
-  }
-  componentDidMount() {
-    let currId = this.props.match.params.userId;
-    axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
-    axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
-  }
-  componentDidUpdate(prevProps) {
-    let prevId = prevProps.match.params.userId;
-    let currId = this.props.match.params.userId;
-    if (prevId !== currId) {
-      axios.get("/user/" + currId).then(this.handleSuccess, this.handleError);
-      axios.get("/photosOfUser/" + currId).then(this.handleSuccess, this.handleError);
-    }
-  }
-  render() {
-    const error = this.state.error;
-    const isLoaded = this.state.userIsLoaded;
-
-    let full_name = "";
-    let location = "";
-    let occupation = "";
-    let description = "";
-    let id = "";
-    if (isLoaded && !error) {
-      full_name = this.state.first_name + " " + this.state.last_name;
-      location = this.state.location;
-      occupation = this.state.occupation;
-      description = this.state.description;
-      id = this.state.id;
-    }
-    return (
-      <div>
-        {
-          <Card className="userDetail-cardRoot">
-            <div className="userDetail-coverImageBox">
-              <img className="userDetail-coverImage" src={this.getPhotoPath()}></img>
-            </div>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {full_name}
-              </Typography>
-              <Typography color="textSecondary" component="p">
-                <b>Location:</b> {location} <br />
-                <b>Occupation:</b> {occupation} <br />
-                <b>Description:</b> {description} <br />
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                <Link to={"/photos/" + id}> View Photos </Link>
-              </Button>
-            </CardActions>
-          </Card>
+    componentDidUpdate() {
+        const new_user_id = this.props.match.params.userId;
+        const current_user_id = this.state.user?._id;
+        if (current_user_id  !== new_user_id){
+            this.handleUserChange(new_user_id);
         }
-      </div>
-    );
-  }
+    }
+
+    handleUserChange(user_id){
+        axios.get("/user/" + user_id)
+            .then((response) =>
+            {
+                const new_user = response.data;
+                this.setState({
+                    user: new_user
+                });
+                const main_content = "User Details for " + new_user.first_name + " " + new_user.last_name;
+                this.props.changeMainContent(main_content);
+            });
+    }
+
+    render() {
+        return this.state.user ? (
+            <div>
+                <Box component="form" noValidate autoComplete="off">
+                    <div>
+                        <Button variant="contained" component="a" href={"#/photos/" + this.state.user._id}>
+                            User Photos
+                        </Button>
+                    </div>
+                    <div>
+                        <TextField id="first_name" label="First Name" variant="outlined" disabled fullWidth
+                                   margin="normal"
+                                   value={this.state.user.first_name}/>
+                    </div>
+                    <div>
+                        <TextField id="last_name" label="Last Name" variant="outlined" disabled fullWidth
+                                   margin="normal"
+                                   value={this.state.user.last_name}/>
+                    </div>
+                    <div>
+                        <TextField id="location" label="Location" variant="outlined" disabled fullWidth
+                                   margin="normal"
+                                   value={this.state.user.location}/>
+                    </div>
+                    <div>
+                        <TextField id="description" label="Description" variant="outlined" multiline rows={4}
+                                   disabled
+                                   fullWidth margin="normal" value={this.state.user.description}/>
+                    </div>
+                    <div>
+                        <TextField id="occupation" label="Occupation" variant="outlined" disabled fullWidth
+                                   margin="normal"
+                                   value={this.state.user.occupation}/>
+                    </div>
+                </Box>
+            </div>
+        ) : (
+            <div/>
+        );
+    }
 }
 
 export default UserDetail;
