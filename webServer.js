@@ -34,8 +34,6 @@
 const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
-const async = require("async");
-
 const fs = require("fs");
 const express = require("express");
 const app = express();
@@ -43,9 +41,9 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 
-const processFormBody = multer({storage: multer.memoryStorage()}).single('uploadedphoto');
+const processFormBody = multer({ storage: multer.memoryStorage() }).single('uploadedphoto');
 
-app.use(session({secret: "secretKey", resave: false, saveUninitialized: false}));
+app.use(session({ secret: "secretKey", resave: false, saveUninitialized: false }));
 app.use(bodyParser.json());
 
 // Load the Mongoose schema for User, Photo, and SchemaInfo
@@ -58,7 +56,6 @@ mongoose.connect("mongodb+srv://btd:harnuz-wePxuq-0zenbo@cluster0.waksdrs.mongod
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 // We have the express static module
 // (http://expressjs.com/en/starter/static-files.html) do all the work for us.
 app.use(express.static(__dirname));
@@ -133,26 +130,20 @@ app.get("/test/:p1", function (request, response) {
       { name: "photo", collection: Photo },
       { name: "schemaInfo", collection: SchemaInfo },
     ];
-    async.each(
-      collections,
-      function (col, done_callback) {
-        col.collection.countDocuments({}, function (err, count) {
-          col.count = count;
-          done_callback(err);
-        });
-      },
-      function (err) {
-        if (err) {
-          response.status(500).send(JSON.stringify(err));
-        } else {
-          const obj = {};
-          for (let i = 0; i < collections.length; i++) {
-            obj[collections[i].name] = collections[i].count;
-          }
-          response.end(JSON.stringify(obj));
-        }
+    async function getCounts(collections) {
+      const countPromises = collections.map(async (col) => {
+        const count = await col.collection.countDocuments({});
+        col.count = count;
+      });
+    
+      await Promise.all(countPromises);
+    
+      const obj = {};
+      for (let i = 0; i < collections.length; i++) {
+        obj[collections[i].name] = collections[i].count;
       }
-    );
+      return obj;
+    }
   } else {
     // If we know understand the parameter we return a (Bad Parameter) (400)
     // status.
